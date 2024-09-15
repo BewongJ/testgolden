@@ -6,6 +6,7 @@ import {
   useProgress,
   SpotLight,
 } from "@react-three/drei";
+import * as THREE from "three"; // นำเข้า THREE
 import { TextureLoader } from "three";
 import Loading from "../layouts/Loading";
 
@@ -45,8 +46,8 @@ const Models2 = () => {
   const [currentModel, setCurrentModel] = useState(models[0]);
 
   // โหลดพื้นผิวของผนัง
-  const wallTexture = useMemo(
-    () => new TextureLoader().load("textures/1.png"),
+  const wallMaterial = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: "green" }), // ใช้ THREE.MeshBasicMaterial
     []
   );
 
@@ -99,14 +100,14 @@ const Models2 = () => {
           {/* พื้นผิวผนัง */}
           <mesh position={[0, 3.5, -12.5]}>
             <planeGeometry args={[15, 10]} />
-            <meshStandardMaterial map={wallTexture} />
+            <meshBasicMaterial color={"green"} /> {/* ใช้ 'color' โดยตรง */}
           </mesh>
 
           {/* กล่องสีดำ */}
-          <mesh position={[0, 0.1, -5]}>
+          {/* <mesh position={[0, 0.1, -5]}>
             <boxGeometry args={[3, 3.5, 3]} />
             <meshStandardMaterial color="black" />
-          </mesh>
+          </mesh> */}
 
           {/* SpotLight */}
           <SpotLight
@@ -119,7 +120,7 @@ const Models2 = () => {
             target-position={[0, 2, -5]}
           />
 
-          <mesh
+          {/* <mesh
             position={[0, 1, -3.4]}
             onClick={handleButtonClick} // จัดการการคลิกปุ่ม
             className="cursor-pointer"
@@ -131,7 +132,7 @@ const Models2 = () => {
           >
             <planeGeometry args={[2, 0.5]} />
             <meshStandardMaterial map={buttonTexture} />
-          </mesh>
+          </mesh> */}
 
           <Suspense fallback={null}>
             <Model modelPath={currentModel} />
